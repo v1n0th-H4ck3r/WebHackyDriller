@@ -26,8 +26,8 @@ def InfoGather():
     print(lbQuery)
     subdomains = _subDomain.enumerate_subdomains(domainName)
     for subdomain, ip_address in subdomains:
-        print(Fore.GREEN + f"{subdomain} - {ip_address}")
-    print(Fore.RED + "------------------------------------------------------------------------------------")
+        print(Fore.GREEN + "[+] " + f"{subdomain} - {ip_address}")
+    print(Fore.RED + "---------------------------------------------------------------------")
 
 def Scanner():
     print("Writing the scanner script...")

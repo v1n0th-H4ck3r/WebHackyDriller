@@ -9,7 +9,7 @@ def get_ip_address(subdomain):
         return None
 
 def enumerate_subdomains(domain):
-    print(Fore.RED + "-------------------------------Sub-domain Findings----------------------------------")
+    print(Fore.RED + "------------------------Sub-domain Findings--------------------------")
     try:
         url = f"https://crt.sh/?q=%.{domain}&output=json"
         response = requests.get(url)
