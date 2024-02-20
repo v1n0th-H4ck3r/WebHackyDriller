@@ -1,7 +1,7 @@
 import dns.resolver
 import socket
 from colorama import Fore
-from utlis import _dnsenum, _waf, _loadBalance, _subDomain
+from utlis import _dnsenum, _waf, _loadBalance, _subDomain, _emailEnum
 def internet_check():
     try:
         socket.create_connection(("www.google.com", 80))
@@ -28,6 +28,16 @@ def InfoGather():
     for subdomain, ip_address in subdomains:
         print(Fore.GREEN + "[+] " + f"{subdomain} - {ip_address}")
     print(Fore.RED + "---------------------------------------------------------------------")
+    print("\n")
+    emailVerify = input(Fore.CYAN + f"[+] Do you want to crawl email from the {domainName} (r.g., Y or n): ")
+    print("\n")
+    if emailVerify == "Y" or "y":
+        emailQuery = _emailEnum.crawl_website(fullUrl)
+        print(emailQuery)
+        print(Fore.RED + "---------------------------------------------------------------------")
+    
+
+
 
 def Scanner():
     print("Writing the scanner script...")
