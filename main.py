@@ -1,7 +1,7 @@
 import dns.resolver
 import socket
 from colorama import Fore
-from utlis import _dnsenum, _waf
+from utlis import _dnsenum, _waf, _loadBalance
 def internet_check():
     try:
         socket.create_connection(("www.google.com", 80))
@@ -22,6 +22,8 @@ def InfoGather():
     print("[+] Generic Detection results:")
     print(result)
     print(Fore.RED + "----------------------------------------------------------------------")
+    lbQuery = _loadBalance.check_dns_load_balancing(domainName)
+    print(lbQuery)
 
 
 
