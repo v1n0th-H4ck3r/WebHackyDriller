@@ -29,12 +29,12 @@ def dns_enum(domain):
 
         print(Fore.RED + "--------------------------------------------------------------------")
     except dns.resolver.NoAnswer:
-        print("No DNS records found.")
+        print(Fore.YELLOW + "[-] No DNS records found.")
     except dns.resolver.NXDOMAIN:
-        print("No such domain exists.")
+        print(Fore.YELLOW + "[-] No such domain exists.")
     except dns.resolver.Timeout:
-        print("DNS query timed out.")
+        print(Fore.YELLOW + "[-] DNS query timed out.")
     except dns.resolver.NoNameservers:
-        print("No nameservers found for the domain.")
+        print(Fore.YELLOW + "[-] No nameservers found for the domain.")
     except Exception as e:
-        print("An error occurred:", e)
+        print(Fore.MAGENTA + "[❌] An error occurred:", e)

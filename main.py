@@ -48,8 +48,9 @@ def main():
 |   |:      |           |:  |   |                |_____|:  1    /                         
 |   |::.|:. |           |::.|:. |                      |::.. . /                          
 |   `--- ---'           `--- ---'                      `------'                           
-|   - By Vinoth (https://github.com/v1n0th-H4ck3r/WebHackyDriller.git)                                                                                    
-|  
+|                  ~ WebHackyDriller : v0.0.0 ~
+|    - By Vinoth (https://github.com/v1n0th-H4ck3r/WebHackyDriller.git)                                                                                    
+|      
 |
 [+]
     """)
