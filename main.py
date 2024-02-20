@@ -1,7 +1,7 @@
 import dns.resolver
 import socket
 from colorama import Fore
-from utlis import _dnsenum
+from utlis import _dnsenum, _waf
 def internet_check():
     try:
         socket.create_connection(("www.google.com", 80))
@@ -13,8 +13,16 @@ def internet_check():
 
 def InfoGather():
     domainName = input("[+] Enter a specific URL to find pages linking to it (e.g., example.com): ")
+    fullUrl = "https://" + domainName
     dnsQuery = _dnsenum.dns_enum(domainName)
     print(dnsQuery)
+    waf_toolkit = _waf.WAFingerprintingToolkit()
+    waf_toolkit.set_target_url(fullUrl)
+    result = waf_toolkit.check_waf()
+    print("[+] Generic Detection results:")
+    print(result)
+    print(Fore.RED + "----------------------------------------------------------------------")
+
 
 
 def Scanner():
