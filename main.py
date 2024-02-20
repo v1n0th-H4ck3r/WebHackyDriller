@@ -1,7 +1,7 @@
 import dns.resolver
 import socket
 from colorama import Fore
-from utlis import _dnsenum, _waf, _loadBalance
+from utlis import _dnsenum, _waf, _loadBalance, _subDomain
 def internet_check():
     try:
         socket.create_connection(("www.google.com", 80))
@@ -21,11 +21,13 @@ def InfoGather():
     result = waf_toolkit.check_waf()
     print("[+] Generic Detection results:")
     print(result)
-    print(Fore.RED + "----------------------------------------------------------------------")
+    print(Fore.RED + "---------------------------------------------------------------------")
     lbQuery = _loadBalance.check_dns_load_balancing(domainName)
     print(lbQuery)
-
-
+    subdomains = _subDomain.enumerate_subdomains(domainName)
+    for subdomain, ip_address in subdomains:
+        print(Fore.GREEN + f"{subdomain} - {ip_address}")
+    print(Fore.RED + "------------------------------------------------------------------------------------")
 
 def Scanner():
     print("Writing the scanner script...")
