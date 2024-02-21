@@ -1,7 +1,7 @@
 import dns.resolver
 import socket
 from colorama import Fore
-from utlis import _dnsenum, _waf, _loadBalance, _subDomain, _emailEnum
+from utlis import _dnsEnum, _waf, _loadBalance, _subDomain, _emailEnum, _subDirectory
 def internet_check():
     try:
         socket.create_connection(("www.google.com", 80))
@@ -14,8 +14,7 @@ def internet_check():
 def InfoGather():
     domainName = input("[+] Enter a specific URL to find pages linking to it (e.g., example.com): ")
     fullUrl = "https://" + domainName
-    dnsQuery = _dnsenum.dns_enum(domainName)
-    print(dnsQuery)
+    dnsQuery = _dnsEnum.dns_enum(domainName)
     waf_toolkit = _waf.WAFingerprintingToolkit()
     waf_toolkit.set_target_url(fullUrl)
     result = waf_toolkit.check_waf()
@@ -23,32 +22,41 @@ def InfoGather():
     print(result)
     print(Fore.RED + "---------------------------------------------------------------------")
     lbQuery = _loadBalance.check_dns_load_balancing(domainName)
-    print(lbQuery)
     subdomains = _subDomain.enumerate_subdomains(domainName)
     for subdomain, ip_address in subdomains:
         print(Fore.GREEN + "[+] " + f"{subdomain} - {ip_address}")
     print(Fore.RED + "---------------------------------------------------------------------")
+    subdirectories = _subDirectory.get_subdirectories(fullUrl)
+    if subdirectories:
+        for subdirectory in subdirectories:
+            print(Fore.GREEN + "[+] " + subdirectory)
+    else:
+        print("No subdirectories found.")
+    print(Fore.RED + "---------------------------------------------------------------------")
+
     print("\n")
-    emailVerify = input(Fore.CYAN + f"[+] Do you want to crawl email from the {domainName} (r.g., Y or n): ")
+    emailVerify = input(Fore.CYAN + f"[+] Do you want to crawl email from the {domainName} (e.g., Y or n): ")
     print("\n")
-    if emailVerify == "Y" or "y":
+    if emailVerify.upper() == "Y":
         emailQuery = _emailEnum.crawl_website(fullUrl)
         print(emailQuery)
         print(Fore.RED + "---------------------------------------------------------------------")
-    
 
 
 
 def Scanner():
-    print("Writing the scanner script...")
+    print("\n")
+    print(Fore.RED + "Writing the scanner script...")
 
 
 def vulnAss():
-    print("Writing the vulnass script...")
+    print("\n")
+    print(Fore.RED + "Writing the vulnass script...")
 
 
 def Exploit():
-    print("Writing the exploit script...")
+    print("\n")
+    print(Fore.RED + "Writing the exploit script...")
 
 
 def main():
