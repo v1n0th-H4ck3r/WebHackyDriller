@@ -1,7 +1,7 @@
 import dns.resolver
 import socket
 from colorama import Fore
-from utlis import _dnsEnum, _waf, _loadBalance, _subDomain, _emailEnum, _subDirectory
+from utlis import _dnsEnum, _waf, _loadBalance, _subDomain, _emailEnum, _subDirectory, _jsLib, _headerCode
 def internet_check():
     try:
         socket.create_connection(("www.google.com", 80))
@@ -21,6 +21,11 @@ def InfoGather():
     print("[+] Generic Detection results:")
     print(result)
     print(Fore.RED + "---------------------------------------------------------------------")
+
+    headers = _headerCode.get_headers(fullUrl)
+    _headerCode.print_headers(headers)
+    print(Fore.RED + "---------------------------------------------------------------------")
+
     lbQuery = _loadBalance.check_dns_load_balancing(domainName)
     subdomains = _subDomain.enumerate_subdomains(domainName)
     for subdomain, ip_address in subdomains:
@@ -34,6 +39,14 @@ def InfoGather():
         print("No subdirectories found.")
     print(Fore.RED + "---------------------------------------------------------------------")
 
+    javascript_libraries = _jsLib.get_javascript_libraries(fullUrl)
+    if javascript_libraries:
+        for library in javascript_libraries:
+            print(Fore.GREEN + library)
+    else:
+        print("No JavaScript library information retrieved.")
+    print(Fore.RED + "---------------------------------------------------------------------")
+
     print("\n")
     emailVerify = input(Fore.CYAN + f"[+] Do you want to crawl email from the {domainName} (e.g., Y or n): ")
     print("\n")
@@ -41,6 +54,7 @@ def InfoGather():
         emailQuery = _emailEnum.crawl_website(fullUrl)
         print(emailQuery)
         print(Fore.RED + "---------------------------------------------------------------------")
+
 
 
 
