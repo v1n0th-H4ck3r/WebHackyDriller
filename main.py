@@ -1,7 +1,7 @@
 import dns.resolver
 import socket
 from colorama import Fore
-from utlis import _dnsEnum, _waf, _loadBalance, _subDomain, _emailEnum, _subDirectory, _jsLib, _headerCode
+from utlis import _dnsEnum, _waf, _loadBalance, _subDomain, _emailEnum, _subDirectory, _jsLib, _headerCode, _sessionCookie, _serverSoft, _subdirForms
 def internet_check():
     try:
         socket.create_connection(("www.google.com", 80))
@@ -22,30 +22,46 @@ def InfoGather():
     print(result)
     print(Fore.RED + "---------------------------------------------------------------------")
 
+    Cokkie = _sessionCookie.cookie(fullUrl)
+
+    _serverSoft.get_server_info(fullUrl)
+
     headers = _headerCode.get_headers(fullUrl)
     _headerCode.print_headers(headers)
     print(Fore.RED + "---------------------------------------------------------------------")
 
     lbQuery = _loadBalance.check_dns_load_balancing(domainName)
+
+    javascript_libraries = _jsLib.get_javascript_libraries(fullUrl)
+    if javascript_libraries:
+        for library in javascript_libraries:
+            print(Fore.GREEN +"[+] "+ library)
+    else:
+        print("No JavaScript library information retrieved.")
+    print(Fore.RED + "---------------------------------------------------------------------")
+
     subdomains = _subDomain.enumerate_subdomains(domainName)
     for subdomain, ip_address in subdomains:
         print(Fore.GREEN + "[+] " + f"{subdomain} - {ip_address}")
     print(Fore.RED + "---------------------------------------------------------------------")
+
     subdirectories = _subDirectory.get_subdirectories(fullUrl)
     if subdirectories:
         for subdirectory in subdirectories:
             print(Fore.GREEN + "[+] " + subdirectory)
     else:
         print("No subdirectories found.")
+
     print(Fore.RED + "---------------------------------------------------------------------")
 
-    javascript_libraries = _jsLib.get_javascript_libraries(fullUrl)
-    if javascript_libraries:
-        for library in javascript_libraries:
-            print(Fore.GREEN + library)
-    else:
-        print("No JavaScript library information retrieved.")
-    print(Fore.RED + "---------------------------------------------------------------------")
+    print("\n")
+    formsVerify = input(Fore.CYAN + f"[+] Do you want to crawl the number of forms input count from the {domainName} (e.g., Y or n): ")
+    print("\n")
+    if formsVerify.upper() == "Y":
+        print(Fore.RED + "--------------Forms information of each subDirectory------------------")
+        _subdirForms.subdirforms(fullUrl)
+        print(Fore.RED + "---------------------------------------------------------------------")
+
 
     print("\n")
     emailVerify = input(Fore.CYAN + f"[+] Do you want to crawl email from the {domainName} (e.g., Y or n): ")

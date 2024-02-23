@@ -25,4 +25,3 @@ def get_subdirectories(url):
     except requests.RequestException as e:
         print(f"An error occurred: {e}")
         return set()
-

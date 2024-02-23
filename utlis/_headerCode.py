@@ -13,7 +13,7 @@ def get_headers(url):
 def print_headers(headers):
     if headers:
         for header, value in headers.items():
-            print(Fore.GREEN + f"{header}: {value}")
+            print(Fore.GREEN + f"[+] {header}: {value}")
     else:
         print(Fore.YELLOW + "[-] No headers retrieved.")
 
